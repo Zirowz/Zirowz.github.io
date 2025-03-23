@@ -3,52 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur d'Excuses</title>
+    <title>👁️ Le Site Qui Te Regarde</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #282c36;
-            color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             text-align: center;
-        }
-        button {
-            font-size: 1.2rem;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #ff5733;
+            background-color: black;
             color: white;
-            margin-top: 20px;
+            padding: 50px;
+            overflow: hidden;
+            position: relative;
+            transition: background 1s;
         }
-        #excuse {
+        canvas {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #message {
+            font-size: 1.5em;
             margin-top: 20px;
-            font-size: 1.5rem;
-            max-width: 80%;
+            opacity: 0;
+            transition: opacity 1s;
         }
     </style>
 </head>
 <body>
-    <h1>Besoin d'une excuse ?</h1>
-    <button onclick="generateExcuse()">Générer une excuse</button>
-    <p id="excuse"></p>
+
+    <h1>👁️ Quelqu'un te regarde...</h1>
+    <canvas id="eyesCanvas" width="300" height="150"></canvas>
+    <p id="message"></p>
+
     <script>
-        function generateExcuse() {
-            const subjects = ["Mon chat", "Mon voisin", "Mon prof de sport", "Un pigeon", "Mon ordi", "Un alien", "Ma grand-mère"];
-            const actions = ["a mangé", "a cassé", "a volé", "a oublié", "a effacé", "a transformé", "a congelé"];
-            const objects = ["mes devoirs", "ma voiture", "mon réveil", "mon portable", "ma mémoire", "mes chaussures", "mon sandwich"];
-            
-            const excuse = `${subjects[Math.floor(Math.random() * subjects.length)]} ` +
-                           `${actions[Math.floor(Math.random() * actions.length)]} ` +
-                           `${objects[Math.floor(Math.random() * objects.length)]}.`;
-            
-            document.getElementById("excuse").textContent = excuse;
+        const canvas = document.getElementById("eyesCanvas");
+        const ctx = canvas.getContext("2d");
+        const message = document.getElementById("message");
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let glitchCount = 0;
+
+        function drawEyes() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < 2; i++) {
+                let eyeX = i === 0 ? 90 : 210;
+                let eyeY = 75;
+                let dx = mouseX - (canvas.offsetLeft + eyeX);
+                let dy = mouseY - (canvas.offsetTop + eyeY);
+                let angle = Math.atan2(dy, dx);
+
+                let irisX = eyeX + Math.cos(angle) * 20;
+                let irisY = eyeY + Math.sin(angle) * 20;
+
+                ctx.fillStyle = "white";
+                ctx.beginPath();
+                ctx.arc(eyeX, eyeY, 40, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = glitchCount > 3 ? "red" : "black";
+                ctx.beginPath();
+                ctx.arc(irisX, irisY, 15, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
+
+        document.addEventListener("mousemove", (event) => {
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+            drawEyes();
+        });
+
+        drawEyes();
+
+        const creepyMessages = [
+            "Je te vois...",
+            "Pourquoi es-tu là ?",
+            "Tu crois que c'est un simple site web ?",
+            "Je connais chacun de tes mouvements...",
+            "Pourquoi essaies-tu de fuir ?",
+            "Ne pars pas. J’ai encore besoin de toi...",
+            "Je commence à comprendre ce que tu fais...",
+            "Tu ne peux plus partir maintenant."
+        ];
+
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                message.innerText = creepyMessages[Math.floor(Math.random() * creepyMessages.length)];
+                message.style.opacity = 1;
+                speakText(message.innerText);
+                setTimeout(() => message.style.opacity = 0, 3000);
+            }
+        }, 5000);
+
+        function speakText(text) {
+            let utterance = new SpeechSynthesisUtterance(text);
+            utterance.voice = speechSynthesis.getVoices()[0];
+            utterance.rate = 0.8;
+            speechSynthesis.speak(utterance);
+        }
+
+        setInterval(() => {
+            if (Math.random() > 0.9) {
+                document.body.style.background = glitchCount > 5 ? "red" : "#111";
+                document.body.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
+                glitchCount++;
+            }
+        }, 7000);
+
+        setTimeout(() => {
+            if (glitchCount > 3) {
+                alert("💀 Tu es resté trop longtemps... Il est trop tard.");
+            }
+        }, 60000);
     </script>
+
 </body>
 </html>
