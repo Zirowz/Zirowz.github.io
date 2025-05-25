@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Bienvenue, <span id="usernameDisplay"></span> !</h2>
+    <button onclick="logout()">Se déconnecter</button>
+  </div>
+  <script>
+    const username = localStorage.getItem("loggedInUser");
+    if (!username) {
+      window.location.href = "index.html";
+    } else {
+      document.getElementById("usernameDisplay").textContent = username;
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
