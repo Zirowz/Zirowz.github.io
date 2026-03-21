@@ -1,380 +1,1153 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article BFMTV - Steal a brainrot, le jeu qui fait tendance chez les plus jeunes</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DsyyBag — Sacs en Crochet Faits Main</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f5efe6;
+      --warm-white: #faf7f2;
+      --terracotta: #c4693c;
+      --terracotta-light: #e8855a;
+      --brown-dark: #3a2318;
+      --brown-mid: #6b3f27;
+      --brown-light: #a0623a;
+      --sand: #d4b896;
+      --sage: #7a8c6e;
+      --dusty-rose: #c9897a;
+      --gold: #c9a96e;
+      --text-main: #2a1a0e;
+      --text-soft: #7a5c45;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-        }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        header {
-            background-color: #09519a;
-            padding: 15px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+    html { scroll-behavior: smooth; }
 
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--warm-white);
+      color: var(--text-main);
+      overflow-x: hidden;
+      cursor: none;
+    }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    /* ── Custom Cursor ── */
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 10px; height: 10px;
+      background: var(--terracotta); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+    }
+    #cursor-ring {
+      position: fixed; top: 0; left: 0; width: 36px; height: 36px;
+      border: 1.5px solid var(--terracotta); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+      opacity: 0.5;
+    }
+    body.cursor-hover #cursor { width: 16px; height: 16px; background: var(--gold); }
+    body.cursor-hover #cursor-ring { width: 52px; height: 52px; opacity: 0.3; }
 
-        .logo-img {
-            width: 50px;
-            height: 50px;
-            background-color: white;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
+    /* ── Noise Overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.35;
+    }
 
-        .logo-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 60px;
+      backdrop-filter: blur(12px);
+      background: rgba(250, 247, 242, 0.88);
+      border-bottom: 1px solid rgba(164, 98, 58, 0.12);
+      transition: padding 0.3s;
+    }
+    nav.scrolled { padding: 14px 60px; }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem; font-weight: 500; letter-spacing: 0.08em;
+      color: var(--brown-dark); text-decoration: none;
+    }
+    .nav-logo span { color: var(--terracotta); font-style: italic; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: 'Jost', sans-serif; font-size: 0.78rem;
+      font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-soft); text-decoration: none;
+      position: relative; padding-bottom: 3px;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 1px; background: var(--terracotta);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--terracotta); }
+    .nav-links a:hover::after { width: 100%; }
 
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: white;
-            letter-spacing: 2px;
-        }
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      padding-top: 80px; position: relative; overflow: hidden;
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 80px 60px 80px 80px; position: relative;
+    }
+    .hero-tag {
+      font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--terracotta); font-weight: 500; margin-bottom: 20px;
+      opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      font-weight: 300; line-height: 1.05;
+      color: var(--brown-dark); margin-bottom: 28px;
+      opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--terracotta); }
+    .hero-desc {
+      font-size: 1rem; line-height: 1.8; color: var(--text-soft);
+      max-width: 400px; margin-bottom: 40px;
+      opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 14px;
+      background: var(--brown-dark); color: var(--cream);
+      padding: 16px 36px; text-decoration: none;
+      font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase;
+      font-weight: 500; transition: background 0.3s, gap 0.3s;
+      opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .hero-cta:hover { background: var(--terracotta); gap: 20px; }
+    .hero-cta-arrow { font-size: 1rem; }
+    .hero-right {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      padding: 40px;
+      opacity: 0; animation: fadeIn 1.2s 0.5s forwards;
+    }
+    .hero-right::before {
+      content: ''; position: absolute;
+      width: 420px; height: 420px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,105,60,0.15) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+    }
+    .hero-bag-showcase {
+      width: 340px; height: 420px;
+      position: relative;
+    }
 
-        nav {
-            background-color: #ffffff;
-            padding: 10px 0;
-        }
+    /* ── HERO DECORATIVE BAG SVG ── */
+    .hero-float {
+      animation: floatBag 4s ease-in-out infinite;
+    }
+    @keyframes floatBag {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-14px); }
+    }
 
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            gap: 25px;
-        }
+    .hero-badge {
+      position: absolute; bottom: 60px; right: -20px;
+      width: 100px; height: 100px; border-radius: 50%;
+      background: var(--terracotta); color: var(--cream);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      animation: rotateBadge 10s linear infinite;
+    }
+    .hero-badge-inner {
+      font-size: 1.4rem; font-weight: 600; line-height: 1;
+    }
+    .hero-badge-text { font-size: 0.6rem; letter-spacing: 0.1em; opacity: 0.85; }
+    @keyframes rotateBadge {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
 
-        .nav-content a {
-            color: rgb(0, 0, 0);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: opacity 0.3s;
-        }
+    /* ── MARQUEE ── */
+    .marquee-strip {
+      background: var(--brown-dark); overflow: hidden;
+      padding: 14px 0; display: flex;
+    }
+    .marquee-track {
+      display: flex; gap: 0; white-space: nowrap;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem; font-style: italic; color: var(--sand);
+      letter-spacing: 0.06em; padding: 0 40px;
+    }
+    .marquee-dot {
+      color: var(--terracotta); padding: 0 6px;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
 
-        .nav-content a:hover {
-            opacity: 0.8;
-        }
+    /* ── SECTION HEADER ── */
+    .section-header {
+      text-align: center; padding: 80px 40px 50px;
+    }
+    .section-tag {
+      font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--terracotta); font-weight: 500; margin-bottom: 14px;
+      display: block;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 300; color: var(--brown-dark); line-height: 1.1;
+    }
+    .section-title em { font-style: italic; color: var(--terracotta); }
+    .section-divider {
+      width: 50px; height: 1px; background: var(--sand);
+      margin: 20px auto 0;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            background: white;
-            padding: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
+    /* ── PRODUCTS GRID ── */
+    #boutique { padding: 0 60px 100px; position: relative; z-index: 1; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 40px 30px;
+      max-width: 1300px; margin: 0 auto;
+    }
 
-        .breadcrumb {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 20px;
-        }
+    .product-card {
+      cursor: none;
+      position: relative;
+      background: var(--cream);
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  box-shadow 0.4s;
+    }
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px rgba(58, 35, 24, 0.14);
+    }
+    .card-image-wrap {
+      position: relative; overflow: hidden;
+      height: 340px; background: var(--warm-white);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-image-wrap svg {
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .product-card:hover .card-image-wrap svg { transform: scale(1.05); }
+    .card-tag {
+      position: absolute; top: 16px; left: 16px;
+      background: var(--terracotta); color: var(--cream);
+      font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 5px 12px; font-weight: 500;
+    }
+    .card-overlay {
+      position: absolute; inset: 0;
+      background: rgba(58, 35, 24, 0.5);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .product-card:hover .card-overlay { opacity: 1; }
+    .overlay-btn {
+      background: var(--cream); color: var(--brown-dark);
+      padding: 13px 32px; font-size: 0.75rem;
+      letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500;
+      border: none; cursor: none;
+      transform: translateY(12px);
+      transition: transform 0.3s, background 0.3s, color 0.3s;
+    }
+    .product-card:hover .overlay-btn {
+      transform: translateY(0);
+    }
+    .overlay-btn:hover { background: var(--terracotta); color: var(--cream); }
+    .card-info { padding: 22px 24px 26px; }
+    .card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 500; color: var(--brown-dark);
+      margin-bottom: 6px;
+    }
+    .card-desc {
+      font-size: 0.8rem; color: var(--text-soft); line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 500; color: var(--terracotta);
+    }
+    .card-colors {
+      display: flex; gap: 6px;
+    }
+    .color-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 1.5px solid rgba(58,35,24,0.2);
+    }
 
-        .breadcrumb a {
-            color: #003366;
-            text-decoration: none;
-        }
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(42, 26, 14, 0.7);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
 
-        .breaking-news-banner {
-            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
-            color: rgb(0, 0, 0);
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 18px;
-            letter-spacing: 1px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-            animation: urgentPulse 2s infinite;
-        }
+    .modal {
+      background: var(--warm-white);
+      width: 90vw; max-width: 960px; max-height: 90vh;
+      overflow-y: auto; position: relative;
+      display: grid; grid-template-columns: 1fr 1fr;
+      transform: translateY(30px) scale(0.97);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      scrollbar-width: none;
+    }
+    .modal::-webkit-scrollbar { display: none; }
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
 
-        @keyframes urgentPulse {
-            0%, 100% { box-shadow: 0 3px 10px rgba(255,0,0,0.3); }
-            50% { box-shadow: 0 3px 20px rgba(255,0,0,0.6); }
-        }
+    .modal-visual {
+      background: var(--cream);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 50px 40px; position: sticky; top: 0;
+      min-height: 500px;
+    }
+    .modal-bag-preview {
+      width: 240px; height: 300px;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    .modal-preview-label {
+      font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--text-soft); margin-top: 24px;
+    }
+    .modal-preview-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 500; color: var(--brown-dark);
+      text-align: center; margin-top: 6px;
+    }
 
-        .category {
-            display: inline-block;
-            background-color: #ff0000;
-            color: white;
-            padding: 5px 12px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-            animation: pulse 2s infinite;
-        }
+    .modal-config { padding: 50px 44px; }
+    .modal-close {
+      position: absolute; top: 20px; right: 20px;
+      background: none; border: none; font-size: 1.4rem;
+      color: var(--text-soft); cursor: none;
+      width: 36px; height: 36px; display: flex; align-items: center;
+      justify-content: center; border-radius: 50%;
+      transition: background 0.2s, color 0.2s;
+    }
+    .modal-close:hover { background: var(--cream); color: var(--brown-dark); }
 
-        h1 {
-            font-size: 36px;
-            line-height: 1.3;
-            margin-bottom: 15px;
-            color: #1a1a1a;
-            font-weight: 700;
-        }
+    .modal-product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.1rem; font-weight: 400; color: var(--brown-dark);
+      margin-bottom: 8px;
+    }
+    .modal-product-desc {
+      font-size: 0.85rem; color: var(--text-soft); line-height: 1.7;
+      margin-bottom: 30px; padding-bottom: 28px;
+      border-bottom: 1px solid rgba(164, 98, 58, 0.15);
+    }
 
-        .subtitle {
-            font-size: 18px;
-            color: #555;
-            line-height: 1.5;
-            margin-bottom: 25px;
-            font-weight: 400;
-        }
+    .config-section { margin-bottom: 28px; }
+    .config-label {
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--terracotta); font-weight: 500; margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .config-label-value {
+      color: var(--brown-dark); font-weight: 400; font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; letter-spacing: 0.02em; text-transform: none;
+    }
 
-        .meta {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #e0e0e0;
-            margin-bottom: 30px;
-            font-size: 14px;
-            color: #666;
-        }
+    /* Color Options */
+    .color-options { display: flex; flex-wrap: wrap; gap: 10px; }
+    .color-option {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 2.5px solid transparent; cursor: none;
+      transition: transform 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .color-option:hover { transform: scale(1.12); }
+    .color-option.selected {
+      border-color: var(--brown-dark);
+      transform: scale(1.12);
+    }
+    .color-option::after {
+      content: ''; position: absolute; inset: -4px;
+      border-radius: 50%; border: 1.5px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .color-option.selected::after { border-color: rgba(58,35,24,0.25); }
 
-        .author {
-            font-weight: 600;
-            color: #333;
-        }
+    /* Accessory / Strap options */
+    .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .option-item {
+      padding: 12px 14px; border: 1.5px solid rgba(164, 98, 58, 0.2);
+      cursor: none; background: transparent; text-align: left;
+      transition: border-color 0.25s, background 0.25s, color 0.25s;
+    }
+    .option-item:hover { border-color: var(--terracotta); background: rgba(196,105,60,0.05); }
+    .option-item.selected {
+      border-color: var(--brown-dark); background: var(--brown-dark); color: var(--cream);
+    }
+    .option-item.selected .opt-price { color: var(--sand); }
+    .opt-name { font-size: 0.82rem; font-weight: 500; display: block; color: inherit; }
+    .opt-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem; color: var(--text-soft); display: block; margin-top: 3px;
+    }
 
-        .date {
-            color: #999;
-        }
+    /* Total + CTA */
+    .modal-total {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0; margin-top: 10px;
+      border-top: 1px solid rgba(164, 98, 58, 0.15);
+    }
+    .total-label { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-soft); }
+    .total-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; color: var(--terracotta); font-weight: 500;
+    }
+    .modal-cta {
+      width: 100%; padding: 17px; background: var(--brown-dark);
+      color: var(--cream); border: none; cursor: none;
+      font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase;
+      font-weight: 500; font-family: 'Jost', sans-serif;
+      transition: background 0.3s;
+      margin-top: 14px;
+    }
+    .modal-cta:hover { background: var(--terracotta); }
 
-        .featured-image {
-            width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
-        
-        .featured-image2 {
-            width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
+    /* ── ABOUT SECTION ── */
+    #about {
+      display: grid; grid-template-columns: 1fr 1fr;
+      max-width: 1300px; margin: 0 auto;
+      padding: 60px 60px 100px; gap: 80px; align-items: center;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-img-frame {
+      width: 100%; aspect-ratio: 4/5;
+      background: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .about-img-frame::before {
+      content: ''; position: absolute;
+      inset: 16px; border: 1px solid rgba(164, 98, 58, 0.3);
+      pointer-events: none; z-index: 1;
+    }
+    .about-badge-decor {
+      position: absolute; top: -20px; right: -20px;
+      width: 120px; height: 120px; border-radius: 50%;
+      border: 1px solid var(--sand);
+      display: flex; align-items: center; justify-content: center;
+      background: var(--warm-white);
+    }
+    .about-badge-decor span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem; text-align: center; line-height: 1.4;
+      color: var(--brown-dark); font-style: italic;
+    }
+    .about-content {}
+    .about-content .section-tag { text-align: left; margin-bottom: 14px; display: block; }
+    .about-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--brown-dark); margin-bottom: 24px;
+    }
+    .about-title em { font-style: italic; color: var(--terracotta); }
+    .about-text {
+      font-size: 0.9rem; line-height: 1.85; color: var(--text-soft);
+      margin-bottom: 18px;
+    }
+    .about-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px; margin-top: 36px;
+      padding-top: 36px; border-top: 1px solid rgba(164, 98, 58, 0.15);
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem; font-weight: 500; color: var(--terracotta);
+      display: block; line-height: 1;
+    }
+    .stat-label { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-soft); margin-top: 6px; display: block; }
 
-        .image-caption {
-            font-size: 13px;
-            color: #666;
-            font-style: italic;
-            margin-bottom: 30px;
-        }
+    /* ── FOOTER ── */
+    footer {
+      background: var(--brown-dark); color: var(--sand);
+      padding: 60px 80px 40px;
+    }
+    .footer-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding-bottom: 40px; border-bottom: 1px solid rgba(164, 98, 58, 0.2);
+      margin-bottom: 30px;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; color: var(--cream); font-weight: 400;
+    }
+    .footer-logo span { color: var(--terracotta); font-style: italic; }
+    .footer-tagline { font-size: 0.8rem; color: var(--text-soft); margin-top: 8px; letter-spacing: 0.1em; }
+    .footer-links { display: flex; gap: 60px; }
+    .footer-col h4 {
+      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--sand); margin-bottom: 16px; font-weight: 500;
+    }
+    .footer-col a {
+      display: block; font-size: 0.85rem; color: var(--text-soft);
+      text-decoration: none; margin-bottom: 10px; transition: color 0.25s;
+    }
+    .footer-col a:hover { color: var(--terracotta); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy { font-size: 0.75rem; color: var(--text-soft); }
+    .footer-social { display: flex; gap: 16px; }
+    .social-link {
+      width: 36px; height: 36px; border: 1px solid rgba(164,98,58,0.3);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; color: var(--sand); text-decoration: none;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .social-link:hover { background: var(--terracotta); border-color: var(--terracotta); }
 
-        .article-content {
-            font-size: 17px;
-            line-height: 1.8;
-            color: #333;
-        }
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+      background: var(--brown-dark); color: var(--cream);
+      padding: 16px 26px; font-size: 0.82rem; letter-spacing: 0.1em;
+      transform: translateY(80px); opacity: 0;
+      transition: transform 0.4s, opacity 0.4s;
+      pointer-events: none;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
 
-        .article-content p {
-            margin-bottom: 20px;
-        }
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        .article-content h2 {
-            font-size: 24px;
-            margin-top: 35px;
-            margin-bottom: 15px;
-            color: #1a1a1a;
-            font-weight: 600;
-        }
-
-        .live-tag {
-            display: inline-block;
-            background-color: #ff1744;
-            color: white;
-            padding: 3px 8px;
-            font-size: 11px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-right: 10px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .social-share {
-            display: flex;
-            gap: 15px;
-            margin: 30px 0;
-            padding: 20px 0;
-            border-top: 1px solid #e0e0e0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .share-btn {
-            padding: 8px 16px;
-            border: 1px solid #ddd;
-            background: white;
-            color: #666;
-            text-decoration: none;
-            font-size: 14px;
-            border-radius: 3px;
-            transition: all 0.3s;
-        }
-
-        .share-btn:hover {
-            background: #f5f5f5;
-            border-color: #003366;
-            color: #003366;
-        }
-
-        .urgent-label {
-            display: inline-block;
-            background-color: #ff0000;
-            color: white;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            letter-spacing: 1.5px;
-            box-shadow: 0 2px 8px rgba(255,0,0,0.4);
-        }
-
-        footer {
-            background-color: #1a1a1a;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 50px;
-        }
-    </style>
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 60px 32px; }
+      nav { padding: 16px 28px; }
+      #boutique { padding: 0 24px 80px; }
+      #about { grid-template-columns: 1fr; padding: 40px 28px 80px; gap: 40px; }
+      .about-visual { display: none; }
+      .modal { grid-template-columns: 1fr; }
+      .modal-visual { display: none; }
+      .footer-top { flex-direction: column; gap: 30px; }
+      footer { padding: 40px 28px; }
+      .footer-links { gap: 30px; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo-container">
-                <div class="logo-img">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Logo_BFMTV_2019.svg/2048px-Logo_BFMTV_2019.svg.png" alt="Logo BFMTV">
-                </div>
-                <div class="logo">BFMTV</div>
+
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Toast -->
+  <div id="toast">✓ Ajouté au panier avec succès</div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a class="nav-logo" href="#"><span>D</span>syy<span>Bag</span></a>
+    <ul class="nav-links">
+      <li><a href="#boutique">Boutique</a></li>
+      <li><a href="#about">Notre Histoire</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <p class="hero-tag">✦ Artisanat &amp; Passion ✦</p>
+      <h1 class="hero-title">
+        Sacs en crochet<br><em>faits à la main</em><br>avec amour
+      </h1>
+      <p class="hero-desc">
+        Chaque sac DsyyBag est une œuvre unique, tissée fil à fil selon vos désirs.
+        Personnalisez couleurs, accessoires et lanière pour un sac qui vous ressemble.
+      </p>
+      <a href="#boutique" class="hero-cta">Découvrir la boutique <span class="hero-cta-arrow">→</span></a>
+    </div>
+    <div class="hero-right">
+      <div class="hero-bag-showcase">
+        <div class="hero-float">
+          <svg viewBox="0 0 340 420" fill="none" xmlns="http://www.w3.org/2000/svg" width="340" height="420">
+            <!-- Bag body -->
+            <rect x="50" y="140" width="240" height="220" rx="24" fill="#c4693c"/>
+            <!-- Crochet texture on bag -->
+            <g opacity="0.22">
+              <circle cx="90" cy="180" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="118" cy="180" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="146" cy="180" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="174" cy="180" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="202" cy="180" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="230" cy="180" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="258" cy="180" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="90" cy="208" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="118" cy="208" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="146" cy="208" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="174" cy="208" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="202" cy="208" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="230" cy="208" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="258" cy="208" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="90" cy="236" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="118" cy="236" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="146" cy="236" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="174" cy="236" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="202" cy="236" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="230" cy="236" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="258" cy="236" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="90" cy="264" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="118" cy="264" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="146" cy="264" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="174" cy="264" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="202" cy="264" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="230" cy="264" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="258" cy="264" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="90" cy="292" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="118" cy="292" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="146" cy="292" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="174" cy="292" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="202" cy="292" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="230" cy="292" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="258" cy="292" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="90" cy="320" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="118" cy="320" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="146" cy="320" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="174" cy="320" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="202" cy="320" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="230" cy="320" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+              <circle cx="258" cy="320" r="12" stroke="#faf7f2" stroke-width="1.5"/>
+            </g>
+            <!-- Clasp area -->
+            <rect x="148" y="133" width="44" height="22" rx="6" fill="#a0623a"/>
+            <circle cx="170" cy="144" r="8" fill="#6b3f27"/>
+            <circle cx="170" cy="144" r="4" fill="#c9a96e"/>
+            <!-- Handles -->
+            <path d="M110 140 C110 80 140 60 170 60 C200 60 230 80 230 140" stroke="#6b3f27" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <!-- Shadow -->
+            <ellipse cx="170" cy="370" rx="90" ry="12" fill="rgba(58,35,24,0.12)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <span class="hero-badge-inner">100%</span>
+        <span class="hero-badge-text">Main</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+
+  <!-- BOUTIQUE -->
+  <section id="boutique">
+    <div class="section-header reveal">
+      <span class="section-tag">✦ Collection</span>
+      <h2 class="section-title">Nos <em>créations</em></h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-visual reveal">
+      <div class="about-img-frame">
+        <svg viewBox="0 0 380 480" fill="none" xmlns="http://www.w3.org/2000/svg" width="300">
+          <rect width="380" height="480" fill="#f5efe6"/>
+          <!-- Artisan hands with crochet hook - abstract illustration -->
+          <ellipse cx="190" cy="360" rx="100" ry="30" fill="#e8d5be" opacity="0.6"/>
+          <!-- Yarn ball -->
+          <circle cx="190" cy="200" r="80" fill="#c4693c" opacity="0.85"/>
+          <path d="M130 180 Q190 130 250 180 Q190 230 130 180Z" fill="#a0623a" opacity="0.5"/>
+          <path d="M140 220 Q190 270 240 220" stroke="#6b3f27" stroke-width="3" fill="none" opacity="0.4"/>
+          <path d="M120 200 Q190 160 260 200" stroke="#e8855a" stroke-width="2.5" fill="none" opacity="0.5"/>
+          <!-- Hook -->
+          <path d="M270 120 L210 240 Q200 260 215 265 Q230 270 235 255" stroke="#6b3f27" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="190" y="430" text-anchor="middle" fill="#a0623a" font-family="Cormorant Garamond, serif" font-size="18" font-style="italic">Fait avec passion</text>
+        </svg>
+      </div>
+      <div class="about-badge-decor">
+        <span>Fait à<br>la main</span>
+      </div>
+    </div>
+    <div class="about-content reveal">
+      <span class="section-tag">✦ Notre Histoire</span>
+      <h2 class="about-title">L'art du crochet<br><em>revisité</em></h2>
+      <p class="about-text">
+        DsyyBag est née d'une passion pour le crochet artisanal et le désir de créer des pièces uniques qui traversent le temps. Chaque sac est confectionné à la main, avec des fils sélectionnés pour leur qualité et leur douceur.
+      </p>
+      <p class="about-text">
+        Nous croyons que chaque sac mérite d'être aussi unique que sa propriétaire. C'est pourquoi nous offrons une personnalisation complète : choisissez vos couleurs, vos accessoires et votre lanière pour un sac véritablement sur mesure.
+      </p>
+      <div class="about-stats">
+        <div>
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Fait main</span>
+        </div>
+        <div>
+          <span class="stat-num">48h</span>
+          <span class="stat-label">Par pièce</span>
+        </div>
+        <div>
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Combinaisons</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo"><span>D</span>syy<span>Bag</span></div>
+        <p class="footer-tagline">Crochet artisanal · Fait à la main · Unique</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Boutique</h4>
+          <a href="#boutique">Collection</a>
+          <a href="#">Commande personnalisée</a>
+          <a href="#">Livraison</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="#">contact@dsyybag.fr</a>
+          <a href="#">Instagram</a>
+          <a href="#">Pinterest</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 DsyyBag. Tous droits réservés.</p>
+      <div class="footer-social">
+        <a href="#" class="social-link">ig</a>
+        <a href="#" class="social-link">pin</a>
+        <a href="#" class="social-link">fb</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-visual">
+        <div class="modal-bag-preview" id="modalPreview"></div>
+        <p class="modal-preview-label">Votre sac personnalisé</p>
+        <p class="modal-preview-name" id="modalPreviewName"></p>
+      </div>
+      <div class="modal-config" id="modalConfig"></div>
+    </div>
+  </div>
+
+  <script>
+    // ── Cursor ──
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursor-ring');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      cursorRing.style.left = e.clientX + 'px';
+      cursorRing.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, .product-card, .color-option, .option-item').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+
+    // ── Nav scroll ──
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ── Marquee ──
+    const marqueeItems = ['Sacs en crochet', 'Fait à la main', '100% artisanal', 'Sur mesure', 'Fils naturels', 'Personnalisable', 'Unique comme vous'];
+    const track = document.getElementById('marqueeTrack');
+    const fullList = [...marqueeItems, ...marqueeItems];
+    track.innerHTML = fullList.map(i => `<span class="marquee-item">${i}<span class="marquee-dot">✦</span></span>`).join('');
+
+    // ── Products Data ──
+    const COLORS = [
+      { name: 'Terracotta', hex: '#c4693c' },
+      { name: 'Sable', hex: '#d4b896' },
+      { name: 'Sauge', hex: '#7a8c6e' },
+      { name: 'Rose poudré', hex: '#c9897a' },
+      { name: 'Ivoire', hex: '#f0e6d3' },
+      { name: 'Brun choco', hex: '#6b3f27' },
+      { name: 'Bleu denim', hex: '#6a7fa3' },
+      { name: 'Bordeaux', hex: '#8b2635' },
+    ];
+
+    const ACCESSORIES = [
+      { id: 'none', name: 'Sans accessoire', price: 0 },
+      { id: 'flower', name: 'Fleur crochet', price: 8 },
+      { id: 'pearl', name: 'Perles naturelles', price: 12 },
+      { id: 'pompom', name: 'Pompon XXL', price: 6 },
+      { id: 'bow', name: 'Nœud ruban', price: 7 },
+      { id: 'tassel', name: 'Glands cuir', price: 15 },
+    ];
+
+    const STRAPS = [
+      { id: 'short', name: 'Anse courte', price: 0 },
+      { id: 'long', name: 'Bandoulière longue', price: 10 },
+      { id: 'chain', name: 'Chaîne dorée', price: 18 },
+      { id: 'leather', name: 'Cuir tressé', price: 22 },
+      { id: 'both', name: 'Double anse', price: 14 },
+    ];
+
+    const PRODUCTS = [
+      {
+        id: 1,
+        name: 'Le Soleil',
+        desc: 'Tote bag rond aux mailles aérées, inspiration bohème',
+        price: 68,
+        tag: 'Bestseller',
+        colors: [0,1,2,4,5],
+        shape: 'tote',
+      },
+      {
+        id: 2,
+        name: 'La Lune',
+        desc: 'Mini sac baguette structuré aux motifs géométriques',
+        price: 54,
+        tag: 'Nouveau',
+        colors: [0,3,7,5],
+        shape: 'baguette',
+      },
+      {
+        id: 3,
+        name: 'La Vague',
+        desc: 'Bucket bag souple et généreux, parfait pour le quotidien',
+        price: 72,
+        tag: '',
+        colors: [0,1,2,6,4],
+        shape: 'bucket',
+      },
+      {
+        id: 4,
+        name: 'Le Jardin',
+        desc: 'Pochette fleurie avec motifs botaniques en relief',
+        price: 42,
+        tag: 'Édition limitée',
+        colors: [2,3,4,1],
+        shape: 'clutch',
+      },
+      {
+        id: 5,
+        name: 'L\'Aurore',
+        desc: 'Sac à main carré aux mailles serrées, élégance discrète',
+        price: 86,
+        tag: '',
+        colors: [0,5,7,3,6],
+        shape: 'square',
+      },
+      {
+        id: 6,
+        name: 'La Forêt',
+        desc: 'Grand cabas tressé pour les journées chargées et colorées',
+        price: 95,
+        tag: 'Coup de cœur',
+        colors: [2,1,5,0],
+        shape: 'cabas',
+      },
+    ];
+
+    // ── SVG Bag Generators ──
+    function getBagSVG(shape, color, strapId, accessoryId, size = 220) {
+      const c = color || '#c4693c';
+      const dark = shadeColor(c, -25);
+      const light = shadeColor(c, 30);
+      const straps = {
+        short: `<path d="M${size*0.32} ${size*0.28} C${size*0.32} ${size*0.14} ${size*0.42} ${size*0.08} ${size*0.5} ${size*0.08} C${size*0.58} ${size*0.08} ${size*0.68} ${size*0.14} ${size*0.68} ${size*0.28}" stroke="${dark}" stroke-width="${size*0.04}" fill="none" stroke-linecap="round"/>`,
+        long: `<line x1="${size*0.36}" y1="${size*0.3}" x2="${size*0.1}" y2="${size*0.85}" stroke="${dark}" stroke-width="${size*0.025}" stroke-linecap="round"/>`,
+        chain: `<path d="M${size*0.36} ${size*0.3} Q${size*0.2} ${size*0.5} ${size*0.15} ${size*0.8}" stroke="#c9a96e" stroke-width="${size*0.018}" fill="none" stroke-dasharray="${size*0.04} ${size*0.02}"/>`,
+        leather: `<path d="M${size*0.32} ${size*0.28} C${size*0.32} ${size*0.14} ${size*0.42} ${size*0.08} ${size*0.5} ${size*0.08} C${size*0.58} ${size*0.08} ${size*0.68} ${size*0.14} ${size*0.68} ${size*0.28}" stroke="#8b5e3c" stroke-width="${size*0.045}" fill="none" stroke-linecap="round"/>`,
+        both: `<path d="M${size*0.32} ${size*0.28} C${size*0.32} ${size*0.14} ${size*0.42} ${size*0.08} ${size*0.5} ${size*0.08} C${size*0.58} ${size*0.08} ${size*0.68} ${size*0.14} ${size*0.68} ${size*0.28}" stroke="${dark}" stroke-width="${size*0.04}" fill="none" stroke-linecap="round"/><line x1="${size*0.36}" y1="${size*0.3}" x2="${size*0.08}" y2="${size*0.9}" stroke="${dark}" stroke-width="${size*0.022}" stroke-linecap="round"/>`,
+      };
+      const accX = size * 0.72, accY = size * 0.55;
+      const accessories = {
+        none: '',
+        flower: `<circle cx="${accX}" cy="${accY}" r="${size*0.07}" fill="${light}" opacity="0.9"/><circle cx="${accX}" cy="${accY}" r="${size*0.035}" fill="${c}"/><circle cx="${accX-size*0.06}" cy="${accY}" r="${size*0.04}" fill="${light}" opacity="0.7"/><circle cx="${accX+size*0.06}" cy="${accY}" r="${size*0.04}" fill="${light}" opacity="0.7"/><circle cx="${accX}" cy="${accY-size*0.06}" r="${size*0.04}" fill="${light}" opacity="0.7"/><circle cx="${accX}" cy="${accY+size*0.06}" r="${size*0.04}" fill="${light}" opacity="0.7"/>`,
+        pearl: `<circle cx="${accX-size*0.05}" cy="${accY}" r="${size*0.03}" fill="#f0e6d3" stroke="#d4b896" stroke-width="1.5"/><circle cx="${accX}" cy="${accY-size*0.05}" r="${size*0.03}" fill="#f0e6d3" stroke="#d4b896" stroke-width="1.5"/><circle cx="${accX+size*0.05}" cy="${accY}" r="${size*0.03}" fill="#f0e6d3" stroke="#d4b896" stroke-width="1.5"/><circle cx="${accX}" cy="${accY+size*0.05}" r="${size*0.03}" fill="#f0e6d3" stroke="#d4b896" stroke-width="1.5"/>`,
+        pompom: `<circle cx="${accX}" cy="${accY}" r="${size*0.1}" fill="${light}" opacity="0.85"/><circle cx="${accX}" cy="${accY}" r="${size*0.06}" fill="${c}" opacity="0.7"/>`,
+        bow: `<path d="M${accX-size*0.1} ${accY-size*0.04} Q${accX-size*0.04} ${accY} ${accX} ${accY} Q${accX-size*0.04} ${accY} ${accX-size*0.1} ${accY+size*0.04}" fill="${dark}" opacity="0.8"/><path d="M${accX+size*0.1} ${accY-size*0.04} Q${accX+size*0.04} ${accY} ${accX} ${accY} Q${accX+size*0.04} ${accY} ${accX+size*0.1} ${accY+size*0.04}" fill="${dark}" opacity="0.8"/><circle cx="${accX}" cy="${accY}" r="${size*0.025}" fill="${light}"/>`,
+        tassel: `<line x1="${accX}" y1="${accY}" x2="${accX-size*0.02}" y2="${accY+size*0.12}" stroke="${dark}" stroke-width="2"/><line x1="${accX}" y1="${accY}" x2="${accX+size*0.02}" y2="${accY+size*0.12}" stroke="${dark}" stroke-width="2"/><line x1="${accX}" y1="${accY}" x2="${accX}" y2="${accY+size*0.14}" stroke="${dark}" stroke-width="2"/><circle cx="${accX}" cy="${accY}" r="${size*0.025}" fill="${c}"/>`,
+      };
+
+      const s = strapId || 'short';
+      const a = accessoryId || 'none';
+
+      const shapes = {
+        tote: `
+          ${straps[s]}
+          <rect x="${size*0.15}" y="${size*0.28}" width="${size*0.7}" height="${size*0.6}" rx="${size*0.07}" fill="${c}"/>
+          ${crocheteTexture(size*0.15, size*0.28, size*0.7, size*0.6, '#fff', 0.18, size)}
+          <rect x="${size*0.35}" y="${size*0.26}" width="${size*0.3}" height="${size*0.08}" rx="${size*0.02}" fill="${dark}"/>
+          <circle cx="${size*0.5}" cy="${size*0.3}" r="${size*0.035}" fill="${light}"/>
+          ${accessories[a]}
+        `,
+        baguette: `
+          ${straps[s]}
+          <rect x="${size*0.1}" y="${size*0.34}" width="${size*0.8}" height="${size*0.44}" rx="${size*0.12}" fill="${c}"/>
+          ${crocheteTexture(size*0.1, size*0.34, size*0.8, size*0.44, '#fff', 0.18, size)}
+          <rect x="${size*0.38}" y="${size*0.31}" width="${size*0.24}" height="${size*0.07}" rx="${size*0.02}" fill="${dark}"/>
+          <circle cx="${size*0.5}" cy="${size*0.345}" r="${size*0.03}" fill="${light}"/>
+          ${accessories[a]}
+        `,
+        bucket: `
+          ${straps[s]}
+          <path d="M${size*0.2} ${size*0.28} L${size*0.15} ${size*0.82} Q${size*0.15} ${size*0.88} ${size*0.5} ${size*0.9} Q${size*0.85} ${size*0.88} ${size*0.85} ${size*0.82} L${size*0.8} ${size*0.28} Z" fill="${c}"/>
+          ${crocheteTexture(size*0.15, size*0.28, size*0.7, size*0.62, '#fff', 0.18, size)}
+          <rect x="${size*0.15}" y="${size*0.26}" width="${size*0.7}" height="${size*0.05}" rx="${size*0.025}" fill="${dark}"/>
+          <path d="M${size*0.38} ${size*0.26} Q${size*0.5} ${size*0.16} ${size*0.62} ${size*0.26}" stroke="${dark}" stroke-width="${size*0.03}" fill="none"/>
+          ${accessories[a]}
+        `,
+        clutch: `
+          <rect x="${size*0.08}" y="${size*0.3}" width="${size*0.84}" height="${size*0.5}" rx="${size*0.06}" fill="${c}"/>
+          ${crocheteTexture(size*0.08, size*0.3, size*0.84, size*0.5, '#fff', 0.18, size)}
+          <path d="M${size*0.08} ${size*0.3} Q${size*0.08} ${size*0.18} ${size*0.3} ${size*0.18} L${size*0.92} ${size*0.18} Q${size*0.92} ${size*0.28} ${size*0.92} ${size*0.3}" fill="${dark}" opacity="0.7"/>
+          <circle cx="${size*0.5}" cy="${size*0.56}" r="${size*0.05}" fill="${dark}" opacity="0.6"/>
+          ${accessories[a]}
+        `,
+        square: `
+          ${straps[s]}
+          <rect x="${size*0.18}" y="${size*0.28}" width="${size*0.64}" height="${size*0.56}" rx="${size*0.04}" fill="${c}"/>
+          ${crocheteTexture(size*0.18, size*0.28, size*0.64, size*0.56, '#fff', 0.18, size)}
+          <line x1="${size*0.18}" y1="${size*0.48}" x2="${size*0.82}" y2="${size*0.48}" stroke="${dark}" stroke-width="1.5" opacity="0.35"/>
+          <rect x="${size*0.41}" y="${size*0.26}" width="${size*0.18}" height="${size*0.06}" rx="${size*0.015}" fill="${dark}"/>
+          <circle cx="${size*0.5}" cy="${size*0.29}" r="${size*0.025}" fill="${light}"/>
+          ${accessories[a]}
+        `,
+        cabas: `
+          ${straps[s]}
+          <path d="M${size*0.1} ${size*0.24} Q${size*0.08} ${size*0.85} ${size*0.5} ${size*0.9} Q${size*0.92} ${size*0.85} ${size*0.9} ${size*0.24} Z" fill="${c}"/>
+          ${crocheteTexture(size*0.1, size*0.24, size*0.8, size*0.66, '#fff', 0.18, size)}
+          <rect x="${size*0.1}" y="${size*0.22}" width="${size*0.8}" height="${size*0.04}" rx="${size*0.02}" fill="${dark}" opacity="0.6"/>
+          <line x1="${size*0.32}" y1="${size*0.22}" x2="${size*0.24}" y2="${size*0.1}" stroke="${dark}" stroke-width="${size*0.035}" stroke-linecap="round"/>
+          <line x1="${size*0.68}" y1="${size*0.22}" x2="${size*0.76}" y2="${size*0.1}" stroke="${dark}" stroke-width="${size*0.035}" stroke-linecap="round"/>
+          ${accessories[a]}
+        `,
+      };
+
+      return `<svg viewBox="0 0 ${size} ${size}" fill="none" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">${shapes[shape] || shapes.tote}<ellipse cx="${size*0.5}" cy="${size*0.95}" rx="${size*0.3}" ry="${size*0.04}" fill="rgba(58,35,24,0.1)"/></svg>`;
+    }
+
+    function crocheteTexture(x, y, w, h, color, opacity, size) {
+      const step = size * 0.09;
+      let circles = `<g opacity="${opacity}" clip-path="url(#clip${Math.random().toString(36).substr(2,4)})">`;
+      for (let cx = x + step/2; cx < x + w; cx += step) {
+        for (let cy = y + step/2; cy < y + h; cy += step) {
+          circles += `<circle cx="${cx}" cy="${cy}" r="${step*0.42}" stroke="${color}" stroke-width="1.2"/>`;
+        }
+      }
+      return circles + '</g>';
+    }
+
+    function shadeColor(hex, percent) {
+      let r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+      r = Math.min(255, Math.max(0, r + percent*2));
+      g = Math.min(255, Math.max(0, g + percent*2));
+      b = Math.min(255, Math.max(0, b + percent*2));
+      return '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+    }
+
+    // ── Render Products ──
+    const grid = document.getElementById('productsGrid');
+    PRODUCTS.forEach(p => {
+      const defaultColor = COLORS[p.colors[0]].hex;
+      const card = document.createElement('div');
+      card.className = 'product-card reveal';
+      card.innerHTML = `
+        <div class="card-image-wrap">
+          ${p.tag ? `<span class="card-tag">${p.tag}</span>` : ''}
+          <div class="card-img-svg">${getBagSVG(p.shape, defaultColor, 'short', 'none', 190)}</div>
+          <div class="card-overlay">
+            <button class="overlay-btn" onclick="openModal(${p.id})">Personnaliser</button>
+          </div>
+        </div>
+        <div class="card-info">
+          <h3 class="card-name">${p.name}</h3>
+          <p class="card-desc">${p.desc}</p>
+          <div class="card-footer">
+            <span class="card-price">€${p.price}</span>
+            <div class="card-colors">
+              ${p.colors.map(i => `<div class="color-dot" style="background:${COLORS[i].hex}" title="${COLORS[i].name}"></div>`).join('')}
             </div>
-            <div style="color: white; font-size: 14px;">La première chaîne d'information en continu</div>
+          </div>
         </div>
-    </header>
+      `;
+      grid.appendChild(card);
+    });
 
-    <nav>
-        <div class="nav-content">
-            <a href="#">ACCUEIL</a>
-            <a href="#">POLITIQUE</a>
-            <a href="#">INTERNATIONAL</a>
-            <a href="#">ÉCONOMIE</a>
-            <a href="#">TECH</a>
-            <a href="#">PEOPLE</a>
-            <a href="#">SPORT</a>
-        </div>
-    </nav>
+    // ── Modal State ──
+    let modalState = {};
 
-    <div class="breaking-news-banner">
-        🔴 ALERTE INFO - INFORMATION DE DERNIÈRE MINUTE
-    </div>
+    function openModal(productId) {
+      const p = PRODUCTS.find(x => x.id === productId);
+      modalState = {
+        product: p,
+        color: COLORS[p.colors[0]],
+        accessory: ACCESSORIES[0],
+        strap: STRAPS[0],
+      };
+      renderModal();
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
 
-    <div class="container">
-        <div class="urgent-label">⚠️ URGENT</div>
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
 
-        <div class="breadcrumb">
-            <a href="#">Accueil</a> > <a href="#">Actualités</a> > dernière minute
-        </div>
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    document.getElementById('modalOverlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    });
 
-        <div class="category"><span class="live-tag">EN DIRECT</span> DERNIERE MINUTE</div>
+    function getTotal() {
+      return modalState.product.price + modalState.accessory.price + modalState.strap.price;
+    }
 
-        <h1>Steal a brainrot, le jeu qui fait tendance chez les plus jeunes</h1>
+    function renderModal() {
+      const { product, color, accessory, strap } = modalState;
+      // Preview
+      document.getElementById('modalPreview').innerHTML = getBagSVG(product.shape, color.hex, strap.id, accessory.id, 240);
+      document.getElementById('modalPreviewName').textContent = product.name;
 
-        <div class="subtitle">
-            Le jeu Roblox <strong>"Steal a Brainrot"</strong> connaît un succès fulgurant auprès des adolescents, devenant un phénomène culturel majeur. Certains en deviennent même <strong>fous</strong> ; trois victimes ont été recensées en France.
-        </div>
+      // Config
+      const config = document.getElementById('modalConfig');
+      config.innerHTML = `
+        <h2 class="modal-product-name">${product.name}</h2>
+        <p class="modal-product-desc">${product.desc}<br><br>Chaque pièce est réalisée à la main avec soin, dans les délais de 2 à 3 semaines.</p>
 
-        <div class="meta">
-            <span class="author">Par Elise MORVANT</span>
-            <span class="date">Publié le 24/11/2025 à 14:30</span>
-            <span class="date">Mis à jour à 15:45</span>
-        </div>
-
-        <img src="https://tr.rbxcdn.com/180DAY-c0c1c4d4ecac6766c2c7f25f3e5dde66/768/432/Image/Webp/noFilter" alt="Image principale" class="featured-image">
-        <div class="image-caption">Cover de "Steal a brainrot" - Crédit photo : Roblox</div>
-
-        <div class="social-share">
-            <a href="#" class="share-btn">📱 Partager</a>
-            <a href="#" class="share-btn">🐦 Twitter</a>
-            <a href="#" class="share-btn">📘 Facebook</a>
-            <a href="#" class="share-btn">✉️ Email</a>
-        </div>
-
-        <div class="article-content">
-            <p>
-                Trois jeunes agés de 11 à 13 ans ont été victimes de comportements inquiétants après avoir joué à <strong>"Steal a Brainrot"</strong>, un jeu populaire sur la plateforme Roblox. Selon les témoignages recueillis, les adolescents ont commencé à présenter des signes de <strong>confusion mentale et d'obsession pour le jeu</strong>, un des trois, crée un <strong>incendie à son domicile en l'absence de ses parents</strong>. Le deuxième a été retrouvé <strong>sans vie dans sa chambre en presence d'un opinel et d'une corde à linge</strong>. Le troisième a <strong>menacé son camarade de le tuer</strong> pour lui avoir volé un des fameux "brainrots" virtuels.
-            </p>
-
-            <p>
-                L'état de santé du jeune ayant déclaré l'incendie inquiête, il a été hospitalisé en urgence et placé sous surveillance psychiatrique. Les autorités locales ont lancé une enquête pour comprendre les circonstances exactes de ces incidents et évaluer l'impact du jeu sur la santé mentale des jeunes joueurs.
-            </p>
-
-            <h2>Qu'est exactement "Steal a brainrot" ?</h2>
-
-            <p>
-                Steal a brainrot est l'un des jeux les plus joués sur la plateforme Roblox, attirant des millions de joueurs à travers le monde. Le concept du jeu est simple : les joueurs doivent voler des "brainrots" (des objets virtuels) à d'autres joueurs tout en évitant de se faire attraper. Cependant, le jeu a récemment été critiqué pour son contenu potentiellement nocif, notamment en raison de la nature compétitive et agressive du gameplay.
-            </p>
-
-            <p>
-                Des experts en santé mentale mettent en garde contre les effets potentiels de ce type de jeu sur les jeunes esprits impressionnables. "Les jeux vidéo peuvent avoir un impact significatif sur le comportement des enfants, surtout lorsqu'ils sont exposés à des contenus violents ou stressants", explique la Dr. Emilie Caradec, psychologue spécialisée dans les troubles liés aux jeux vidéo. "Il est crucial que les parents surveillent les activités en ligne de leurs enfants et discutent ouvertement des risques associés."
-            </p>
-
-                <img src="https://images.ladepeche.fr/api/v1/images/view/654867f542bab859cc672888/large/image.jpg?v=1" alt="Image secondaire" class="featured-image2">
-        <div class="image-caption">Incendie déclaré à Auvers-Sur-Loise - Crédit photo : Média Brut</div>
-            <h2>Les réactions et perspectives</h2>
-
-            <p>
-                En réponse à ces incidents, Roblox Corporation a publié une déclaration soulignant son engagement envers la sécurité des joueurs. "Nous prenons très au sérieux la sécurité et le bien-être de notre communauté", a déclaré un porte-parole de l'entreprise. "Nous travaillons constamment à améliorer nos systèmes de modération et à fournir des ressources éducatives aux parents et aux joueurs."
-            </p>
-
-            <p>
-                Les parents sont encouragés à discuter avec leurs enfants des jeux auxquels ils jouent et à établir des limites claires concernant le temps d'écran. De plus, il est recommandé de surveiller les comportements inhabituels ou inquiétants chez les jeunes joueurs.
-            </p>
+        <div class="config-section">
+          <p class="config-label">Couleur <span class="config-label-value">${color.name}</span></p>
+          <div class="color-options">
+            ${product.colors.map(i => `
+              <div class="color-option ${COLORS[i].hex === color.hex ? 'selected' : ''}"
+                style="background:${COLORS[i].hex}"
+                title="${COLORS[i].name}"
+                onclick="selectColor(${i})"></div>
+            `).join('')}
+          </div>
         </div>
 
-        <div class="social-share">
-            <a href="#" class="share-btn">📱 Partager</a>
-            <a href="#" class="share-btn">🐦 Twitter</a>
-            <a href="#" class="share-btn">📘 Facebook</a>
-            <a href="#" class="share-btn">✉️ Email</a>
+        <div class="config-section">
+          <p class="config-label">Accessoire <span class="config-label-value">${accessory.name}</span></p>
+          <div class="option-grid">
+            ${ACCESSORIES.map(a => `
+              <button class="option-item ${a.id === accessory.id ? 'selected' : ''}" onclick="selectAccessory('${a.id}')">
+                <span class="opt-name">${a.name}</span>
+                <span class="opt-price">${a.price === 0 ? 'Inclus' : '+€' + a.price}</span>
+              </button>
+            `).join('')}
+          </div>
         </div>
-    </div>
 
-    <footer>
-        <p>&copy; 2025 BFMTV - Tous droits réservés</p>
-    </footer>
+        <div class="config-section">
+          <p class="config-label">Lanière <span class="config-label-value">${strap.name}</span></p>
+          <div class="option-grid">
+            ${STRAPS.map(s => `
+              <button class="option-item ${s.id === strap.id ? 'selected' : ''}" onclick="selectStrap('${s.id}')">
+                <span class="opt-name">${s.name}</span>
+                <span class="opt-price">${s.price === 0 ? 'Inclus' : '+€' + s.price}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="modal-total">
+          <span class="total-label">Total estimé</span>
+          <span class="total-price">€${getTotal()}</span>
+        </div>
+        <button class="modal-cta" onclick="addToCart()">Commander ce sac →</button>
+      `;
+
+      // Re-bind cursor hover
+      config.querySelectorAll('button, .color-option').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+      });
+    }
+
+    function selectColor(idx) {
+      modalState.color = COLORS[idx];
+      renderModal();
+    }
+    function selectAccessory(id) {
+      modalState.accessory = ACCESSORIES.find(a => a.id === id);
+      renderModal();
+    }
+    function selectStrap(id) {
+      modalState.strap = STRAPS.find(s => s.id === id);
+      renderModal();
+    }
+
+    function addToCart() {
+      closeModal();
+      const toast = document.getElementById('toast');
+      toast.textContent = `✓ ${modalState.product.name} ajouté au panier — €${getTotal()}`;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // ── Reveal on scroll ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), e.target.dataset.delay || 0);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.dataset.delay = (i % 4) * 100;
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
